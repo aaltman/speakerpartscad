@@ -117,14 +117,18 @@ module speakerflange() {
                         square(105);
                 }
             }
-            linear_extrude(10) {
-                union() {
-                    square_pipe_grid_face();
-                    translate([12,11,0])
-                        minkowski() {
-                            square(107);
-                            circle(5);
-                        }
+            linear_extrude(15) {
+                difference() {
+                    union() {
+                        square_pipe_grid_face();
+                        translate([12,11,0])
+                            minkowski() {
+                                square(110);
+                                circle(3);
+                            }
+                    }
+                    translate([65,65,65])
+                    circle(50);
                 }
             }
         }
