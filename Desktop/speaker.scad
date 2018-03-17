@@ -135,7 +135,7 @@ module speakerflange() {
     }
 }
 
-scale(0.2)
+scale(1.56)
 union() {
     bend1();
     straight1();
