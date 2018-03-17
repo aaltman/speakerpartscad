@@ -106,18 +106,36 @@ module straight7() {
 }
 
 module speakerflange() {
+    translate([0,373,top_layer_base_height])
+    rotate([90,0,0])
     translate([0,0,top_layer_base_height + 8]) {
-        difference() {
-            minkowski() {
-                cube(straight_segment_length + 19);
-                sphere(rounding_radius);
+        union() {
+            linear_extrude(127) {
+                difference() {
+                    square_pipe_grid_face();
+                    translate([15,10,0])
+                        square(105);
+                }
             }
-            cylinder(straight_segment_length, straight_segment_length);
+            linear_extrude(15) {
+                difference() {
+                    union() {
+                        square_pipe_grid_face();
+                        translate([12,11,0])
+                            minkowski() {
+                                square(110);
+                                circle(3);
+                            }
+                    }
+                    translate([65,65,65])
+                    circle(50);
+                }
+            }
         }
     }
 }
 
-scale(0.2)
+scale(1.56)
 union() {
     bend1();
     straight1();
@@ -127,5 +145,5 @@ union() {
     straight5();
     bend6();
     straight7();
-    //speakerflange();
+    speakerflange();
 }
