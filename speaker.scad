@@ -171,6 +171,21 @@ module speakerflange() {
     }
 }
 
+module flangesupports() {
+    for (i = [1:3]) {
+        height = top_layer_base_height + 127/4*i;
+        translate([0,0,height])
+        linear_extrude(3) {
+            difference() {
+                translate([0,0])
+                    square(125);
+                translate([63,100])
+                    circle(70);
+            }
+        }
+    }
+}
+
 module support_face() {
     difference() {
         square(18,25);
@@ -229,6 +244,25 @@ module support4() {
     support2();
 }
 
+module support5() {
+    mirror([0,1,0])
+    support4();
+}
+
+module support6() {
+    difference() {
+        difference() {
+            translate([0,137,0]) {
+                support3();
+                // FIXME hack to get top of last little infill section chopped off
+            }
+            translate([-50, 0, 200])
+                cube(150);
+        }
+        bend3();
+    }
+}
+
 scale(1.56)
 union() {
     bend1();
@@ -240,8 +274,11 @@ union() {
     bend6();
     straight7();
     speakerflange();
+    flangesupports();
     support1();
     support2();
     support3();
     support4();
+    support5();
+    support6();
 }
