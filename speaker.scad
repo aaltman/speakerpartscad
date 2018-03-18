@@ -263,6 +263,7 @@ module support6() {
     }
 }
 
+rotate([0,-90,0])
 scale(1.56)
 union() {
     bend1();
