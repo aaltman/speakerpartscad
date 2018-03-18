@@ -256,11 +256,22 @@ module support6() {
                 support3();
                 // FIXME hack to get top of last little infill section chopped off
             }
-            translate([-50, 0, 200])
-                cube(150);
+            // Clean up the ends by clipping with cubes at various angles
+            union() {
+                translate([-50, 0, 116])
+                    cube(150);
+                translate([-216, 0, 116])
+                    rotate([0, 45, 0])
+                        cube(150);            
+                translate([3, 0, 116])
+                    rotate([0, 45, 0])
+                        cube(150);                    
+                translate([-2, 0, 115])
+                    cube(150);                                    
+            }
         }
         bend3();
-    }
+    }                                     
 }
 
 rotate([0,-90,0])
