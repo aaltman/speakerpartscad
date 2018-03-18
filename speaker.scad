@@ -24,7 +24,7 @@ module square_pipe_grid_face(num_holes=16, spacing=9, edge_length=20, rounding_r
 
 module support2Dface(num=4) {
     difference() {
-        square(20,30);
+        square(20,20);
         translate([10,-5,0])
             circle(15);
         translate([10,30,0])
@@ -32,9 +32,9 @@ module support2Dface(num=4) {
     }
 }
 
-translate([500,500,500])
-    linear_extrude(500)
-        support2Dface();
+//translate([500,500,500])
+    //linear_extrude(500)
+        //support2Dface();
 
 module pipe_bend() {
     rotate_extrude()            
@@ -70,11 +70,55 @@ corner_thickness = 4*20 + 3*9;
 straight_segment_length = 4*20 + 3*9;
 top_layer_base_height = corner_thickness + straight_segment_length + 30;
 
+module straight_supports() {
+    for (i = [0:3]) {
+        //rotate_extrude(angle = 10)
+        //translate([2, 0, 0])
+            //rectangle(20,10);
+        translate([40 * i, 0, 0])
+        linear_extrude(straight_segment_length + 80) {
+            difference() {
+                square(26,26);
+                translate([-10,13,0])
+                    circle(15);
+                translate([28,13,0])
+                    circle(15);
+            }
+        }
+    }
+}
+
+translate([-12,straight_segment_length + 80,550])
+rotate([90,90,0])
+straight_supports();
+
 module bend1() {
     translate([0, 0, top_layer_base_height])
        mirror([1,0,1])
            pipe_bend_90();
 }
+
+/*module support_bend1() {
+    translate([0, 0, top_base_layer_height])
+        for (i = [0:4]) {
+            deg_span = 360 / 4;
+            deg_rotated = deg_span * i;
+            rotate([0,0,deg_rotated])
+                difference(
+                    rotate_extrude(deg_span)
+                        rectangle([
+                }            
+        }
+}*/
+/*translate([500,500,500])
+rotate_extrude(360) {
+    //rotate([0,90,0]);
+    translate([250,250,250])
+    circle(500);
+} */
+        
+//translate([100,100,100])
+    //support_bend1();
 
 module straight_segment() {
     linear_extrude(straight_segment_length + 30)
