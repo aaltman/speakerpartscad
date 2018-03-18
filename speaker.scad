@@ -22,6 +22,20 @@ module square_pipe_grid_face(num_holes=16, spacing=9, edge_length=20, rounding_r
     }
 }
 
+module support2Dface(num=4) {
+    difference() {
+        square(20,30);
+        translate([10,-5,0])
+            circle(15);
+        translate([10,30,0])
+            circle(15);
+    }
+}
+
+translate([500,500,500])
+    linear_extrude(500)
+        support2Dface();
+
 module pipe_bend() {
     rotate_extrude()            
         square_pipe_grid_face();    
