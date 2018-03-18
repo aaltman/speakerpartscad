@@ -274,8 +274,13 @@ module support6() {
     }                                     
 }
 
+module raft() {
+    translate([-126,-137,-25])
+    cube([2, 275, 410]);
+}
+
 rotate([0,-90,0])
-scale(1.56)
+scale(0.83)
 union() {
     bend1();
     straight1();
@@ -293,4 +298,5 @@ union() {
     support4();
     support5();
     support6();
+    raft();
 }
