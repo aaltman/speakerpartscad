@@ -70,28 +70,6 @@ corner_thickness = 4*20 + 3*9;
 straight_segment_length = 4*20 + 3*9;
 top_layer_base_height = corner_thickness + straight_segment_length + 30;
 
-module straight_supports() {
-    for (i = [0:3]) {
-        //rotate_extrude(angle = 10)
-        //translate([2, 0, 0])
-            //rectangle(20,10);
-        translate([40 * i, 0, 0])
-        linear_extrude(straight_segment_length + 80) {
-            difference() {
-                square(26,26);
-                translate([-10,13,0])
-                    circle(15);
-                translate([28,13,0])
-                    circle(15);
-            }
-        }
-    }
-}
-
-translate([-12,straight_segment_length + 80,550])
-rotate([90,90,0])
-straight_supports();
-
 module bend1() {
     translate([0, 0, top_layer_base_height])
        mirror([1,0,1])
@@ -193,6 +171,64 @@ module speakerflange() {
     }
 }
 
+module support_face() {
+    difference() {
+        square(18,25);
+        translate([-11,10,0])
+            circle(14);
+        translate([29,10,0])
+            circle(14);
+    }    
+}
+
+module straight_supports() {
+    for (i = [0:3]) {
+        translate([30 * i, 0, 0])
+        linear_extrude(straight_segment_length + 25) {
+            support_face();
+        }
+    }
+}
+
+module support90() {
+    rotate_extrude(angle = 90) {
+        for (i = [0:3]) {
+            translate([35 * i, 0]) {
+                support_face();
+            }
+        }
+    }
+}
+
+module support1() {
+    translate([-11,straight_segment_length + 14,top_layer_base_height + 123])
+    rotate([90,90,0])
+    straight_supports();
+}
+
+module support2() {
+    translate([-10,0,top_layer_base_height])
+    rotate([0,-90,180])
+    support90();
+}
+
+module support3() {
+    translate([0,127*2 - 9,127])
+    rotate([90,0,0])
+    union() {
+        support1();
+        // FIXME extend this one a bit since something is off about the ends of our corners.
+        translate([0,-13,0])
+        support1();
+    }
+}
+
+module support4() {
+    translate([0,0,350])
+    mirror([0,0,1])
+    support2();
+}
+
 scale(1.56)
 union() {
     bend1();
@@ -204,4 +240,8 @@ union() {
     bend6();
     straight7();
     speakerflange();
+    support1();
+    support2();
+    support3();
+    support4();
 }
